@@ -30,8 +30,5 @@ then
     ln -s /vagrant/www /var/www
 
     # Victory!
-    echo "You're all done! Your default node server should now be listening on 10.0.33.34:80"
-
-    # Run it
-    node /var/www/server.js
+    echo "You're all done!"
 fi

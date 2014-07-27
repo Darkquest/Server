@@ -1,3 +1,5 @@
+var bytearray = require('bytearray');
+
 /**
  *
  * @param buffer Buffer
@@ -30,8 +32,8 @@ BufferReader.prototype.updateCurrentIndex = function (count) {
  * Reads a byte from the buffer and updates the current index by 1
  * @returns {*}
  */
-BufferReader.prototype.readByte = function () {
-    var byte = this.buffer[this.currentIndex];
+BufferReader.prototype.readUnsignedByte = function () {
+    var byte = bytearray.readUnsignedByte(this.buffer, this.currentIndex);
     this.updateCurrentIndex(1);
     return byte;
 };
@@ -52,7 +54,7 @@ BufferReader.prototype.readSlice = function (count) {
  * @returns Number
  */
 BufferReader.prototype.readInt = function () {
-    var int = this.buffer.readInt32LE(this.currentIndex);
+    var int = bytearray.readInt(this.buffer, this.currentIndex);
     this.updateCurrentIndex(32);
     return int;
 }
