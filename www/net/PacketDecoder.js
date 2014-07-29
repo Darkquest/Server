@@ -2,18 +2,20 @@ var BufferReader = require('./utils/BufferReader');
 var Packet = require('./Packet');
 
 function calculatePacketLength(bufferReader) {
-    var length = bufferReader.readUnsignedByte();
+    var length = bufferReader.readNext();
     if (length < 160)  {
         return length;
     }
-    return (length - 160) * 256 + bufferReader.readUnsignedByte();
+    return (length - 160) * 256 + bufferReader.readNext();
 }
 
 var EMPTY_BUFFER = new Buffer(0);
 
+
 module.exports.decode = function (buffer) {
 
-    console.log(buffer);
+
+
 
     var bufferReader = new BufferReader(buffer);
 
@@ -21,18 +23,10 @@ module.exports.decode = function (buffer) {
     var id;
     var payload;
 
-    if (length > 160) {
-        id = bufferReader.readUnsignedByte();
-        payload = bufferReader.readSlice(length - 1);
-    }
-    else if (length >= 2) { // some magic
-        throw new Error("implement");
-    }
-    else {
-        id = bufferReader.readUnsignedByte();
-        payload = EMPTY_BUFFER;
-    }
+    id = bufferReader.readNext();
+    payload = bufferReader.readSlice(length - 1);
 
-    console.log(length, id, payload.toString());
+    console.log(id, payload, length);
+
     return new Packet(id, payload);
 }
